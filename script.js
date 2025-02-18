@@ -10,7 +10,7 @@ const actions = [fight, act, item, mercy];
 
 const selectionSound = new Audio('songs_and_sfx/select-sound.mp3');
 
-// start and loop the song
+// start and loop the boss song
 const song = new Audio('songs_and_sfx/mettalocrusher.mp3');
 window.addEventListener('click', function playSong() {
     song.play();
@@ -21,6 +21,23 @@ const loop = setInterval(function() {
         song.play();
     }
 }, 1000);
+
+// helper functions
+/**
+ * @function Creates an instance of an audio file and loops it.
+ * 
+ * @returns the ID of the created interval.
+ */
+function loopSong(path) {
+    const song = new Audio(path);
+    song.play();
+    const loop = setInterval(function() {
+        if (song.ended) {
+            song.play();
+        }
+    }, 1000);
+    return loop;
+}
 
 window.addEventListener('keydown', function(event) {
     const pressed = event.key;
