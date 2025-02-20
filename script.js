@@ -6,6 +6,7 @@ const item = document.querySelector('.item');
 const mercy = document.querySelector('.mercy');
 
 const bulletText = document.querySelector('.bullet-text');
+let flavorText = bulletText.textContent;
 
 let selected = fight;
 const actions = [fight, act, item, mercy];
@@ -57,31 +58,34 @@ window.addEventListener('keydown', function(event) {
     const pressed = event.key;
 
     if (playerTurn) {
-        if (['ArrowRight', 'ArrowLeft'].includes(pressed)) {
-            // reset all buttons to their default state
-            actions.forEach(button => {
-                const buttonName = button.classList.value;
-                button.src = `sprites/${buttonName.toUpperCase()}.png`;
-            });
+        if (['ArrowRight', 'ArrowLeft', 'Enter'].includes(pressed)) {
+            if (['ArrowRight', 'ArrowLeft'].includes(pressed)) {
+                // reset all buttons to their default state
+                actions.forEach(button => {
+                    const buttonName = button.classList.value;
+                    button.src = `sprites/${buttonName.toUpperCase()}.png`;
+                });
 
-            // update the selected button
-            let currIndex = actions.indexOf(selected);
-            if (pressed === 'ArrowRight') {
-                currIndex = (currIndex + 1) % actions.length;
-            } else if (pressed === 'ArrowLeft') {
-                currIndex = (currIndex - 1 + actions.length) % actions.length;
+                // update the selected button
+                let currIndex = actions.indexOf(selected);
+                if (pressed === 'ArrowRight') {
+                    currIndex = (currIndex + 1) % actions.length;
+                } else if (pressed === 'ArrowLeft') {
+                    currIndex = (currIndex - 1 + actions.length) % actions.length;
+                }
+                selected = actions[currIndex];
+
+                const buttonName = selected.classList.value;
+                selected.src = `sprites/${buttonName.toUpperCase()}_selected.png`;
+            } else if (pressed === 'Enter') {
+                bulletText.innerHTML = menus[actions.indexOf(selected)];
             }
-            selected = actions[currIndex];
 
-            const buttonName = selected.classList.value;
-            selected.src = `sprites/${buttonName.toUpperCase()}_selected.png`;
-
+            // play the 'select' sound for both of these cases
             selectionSound.currentTime = 0;
             selectionSound.play();
-        } else if (pressed === 'Enter') {
-            bulletText.innerHTML = menus[actions.indexOf(selected)];
         } else if (pressed === 'Shift') {
-            bulletText.innerHTML = "* You feel like you're gonna have a good time.";
+            bulletText.innerHTML = flavorText;
         }
     } else {
         // TODO: add support for the enemy's turn.
