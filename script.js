@@ -6,6 +6,9 @@ const item = document.querySelector('.item');
 const mercy = document.querySelector('.mercy');
 
 const bulletText = document.querySelector('.bullet-text');
+const initialText = "* You feel like you're gonna have a good time.";
+
+// TODO: Make the lazy dialogue each time the player cancels selection. 
 let flavorText = bulletText.textContent;
 
 let selected = fight;
@@ -35,6 +38,9 @@ const loop = setInterval(function() {
     }
 }, 1000);
 
+// Display the initial message on the bullet board.
+playDialogue(bulletText, initialText, null);
+
 // helper functions
 /**
  * Creates an instance of an audio file and loops it.
@@ -52,6 +58,30 @@ function loopSong(path) {
         }
     }, 1000);
     return loop;
+}
+/**
+ * "Slowly" plays a dialogue, optionally playing a sound each time a character is printed.
+ * 
+ * @param htmlelement The HTML element that is supposed to be updated.
+ * @param string The string that is supposed to replace the previous content.
+ * @param sound The sound that is supposed to be played each time a character is printed. Use null to disable.
+ * @param delay The delay between each character being printed (in milliseconds).
+ */
+function playDialogue(htmlelement, string, sound = "songs_and_sfx/just-sans-talking.mp3", delay = 35) {
+    let index = 0;
+    htmlelement.textContent = '';
+    const dialogue = setInterval(function() {
+        if (index >= string.length) {
+            clearInterval(dialogue);
+        } else {
+            let char = string[index++];
+            htmlelement.textContent += char;
+            if (char !== ' ' && sound !== null) {
+                const sfx = new Audio(sound); // workaround for a lack of a better way to do this
+                sfx.play();
+            }
+        }
+    }, delay);
 }
 
 window.addEventListener('keydown', function(event) {
