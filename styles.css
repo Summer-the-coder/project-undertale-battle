@@ -24,10 +24,16 @@ main {
     height: 500px;
 }
 .bullet-board {
+    margin: 0 auto;
     padding: 5px 20px;
     line-height: 0px;
     border: 5px solid white;
     height: 235px;
+}
+.soul {
+    position: relative;
+    width: 30px;
+    height: 30px;
 }
 .info {
     display: flex;
