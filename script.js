@@ -17,6 +17,10 @@ const actions = [fight, act, item, mercy];
 
 let playerTurn = false;
 
+// make the soul appear at the bottom center of the board
+soul.style.left = Math.floor((getCSSPropertyValue(bulletBoard, 'width').match(/\d+/g)[0] / 2)/5)*5 + 'px';
+soul.style.top = getCSSPropertyValue(bulletBoard, 'height').match(/\d+/g)[0] - 40 + 'px';
+
 // TODO: Add multiline support.
 const menus = [
     '* Sans',
@@ -50,6 +54,7 @@ function getCSSPropertyValue(element, value) {
     const elementStyles = window.getComputedStyle(element);
     return elementStyles.getPropertyValue(value);
 }
+
 /**
  * Creates an instance of an audio file and loops it.
  * 
@@ -67,6 +72,7 @@ function loopSong(path) {
     }, 1000);
     return loop;
 }
+
 /**
  * "Slowly" plays a dialogue, optionally playing a sound each time a character is printed.
  * 
@@ -91,8 +97,11 @@ function playDialogue(htmlElement, string, sound = "songs_and_sfx/just-sans-talk
         }
     }, delay);
 }
+
 /**
  * Moves the soul across the bullet board.
+ * 
+ * @param direction The arrow key ('ArrowLeft', 'ArrowUp', etc.) which determines the direction to move to.
  */
 function moveSoul(direction) {
     function getNum(variable) {
@@ -102,14 +111,14 @@ function moveSoul(direction) {
         return getNum(property) + step + 'px';
     }
     const step = 5;
-    const [width, height] = [getNum(getCSSPropertyValue(bulletBoard, 'width')) - 65, getNum(getCSSPropertyValue(bulletBoard, 'height')) - 50];
+    const [width, height] = [getNum(getCSSPropertyValue(bulletBoard, 'width')), getNum(getCSSPropertyValue(bulletBoard, 'height'))];
     const [x, y] = [getNum(soul.style.left), getNum(soul.style.top)];
 
-    if (direction === 'ArrowRight' && x < width) {
+    if (direction === 'ArrowRight' && x < width - 45) {
         soul.style.left = handleMovement(soul.style.left, step);
     } else if (direction === 'ArrowLeft' && x > 0) {
         soul.style.left = handleMovement(soul.style.left, -step);
-    } else if (direction === 'ArrowDown' && y < height) {
+    } else if (direction === 'ArrowDown' && y < height - 40) {
         soul.style.top = handleMovement(soul.style.top, step);
     } else if (direction === 'ArrowUp' && y > 0) {
         soul.style.top = handleMovement(soul.style.top, -step);

@@ -25,7 +25,6 @@ main {
 }
 .bullet-board {
     margin: 0 auto;
-    padding: 5px 20px;
     line-height: 0px;
     border: 5px solid white;
     height: 235px;
@@ -39,6 +38,7 @@ main {
     display: flex;
     justify-content: space-between;
     width: calc(1.75 * var(--width) / 3);
+    padding: 0 0 0 30px;
     line-height: 10px;
     height: 60px;
 }
